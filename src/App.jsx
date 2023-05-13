@@ -8,6 +8,7 @@ import Customers from "./components/Customers/Customers";
 import Dictionary from "./components/Dictionary/Dictionary";
 import Calender from "./components/Calender/Calender";
 import Employee from "./components/Employee/Employee";
+import { v4 as uuidv4 } from "uuid";
 
 export const LoginContext = createContext();
 
@@ -21,13 +22,53 @@ function App() {
   // USE STATE RULE #1:  NEVER ASSIGN VALUE TO VAR DIRECTLY ; ALWAYS GO THROUGH THE SET FUNC
   let role02 = "dev"; // VAR TO BE PASSED AS PROP
 
+  const [employees, setEmployees] = useState([
+    {
+      name: "Al",
+      role: "dev",
+      img: "https://images.pexels.com/photos/4588071/pexels-photo-4588071.jpeg?auto=compress&cs=tinysrgb&w=400",
+    },
+    {
+      name: "val",
+      role: "manager",
+      img: "https://images.pexels.com/photos/2647053/pexels-photo-2647053.jpeg?auto=compress&cs=tinysrgb&w=100",
+    },
+    {
+      name: "pal",
+      role: "damager",
+      img: "https://images.pexels.com/photos/2540644/pexels-photo-2540644.jpeg?auto=compress&cs=tinysrgb&w=600",
+    },
+    {
+      name: "pal02",
+      role: "flannerl-wearer",
+      img: "https://images.pexels.com/photos/568020/pexels-photo-568020.jpeg?auto=compress&cs=tinysrgb&w=600",
+    },
+    {
+      name: "pal03",
+      role: "driver",
+      img: "https://images.pexels.com/photos/2152399/pexels-photo-2152399.jpeg?auto=compress&cs=tinysrgb&w=600",
+    },
+    {
+      name: "pal04",
+      role: "tank",
+      img: "https://images.pexels.com/photos/1526410/pexels-photo-1526410.jpeg?auto=compress&cs=tinysrgb&w=600",
+    },
+    {
+      name: "Al05",
+      role: "dev02",
+      img: "https://images.pexels.com/photos/16623469/pexels-photo-16623469.jpeg?auto=compress&cs=tinysrgb&w=400",
+    },
+  ]);
+
   const [loggedIn, setLoggedIn] = useState("logged in", true); // WILL BE ASSOCIATED WITH USER ACCESS TOKEN
   return (
     <LoginContext.Provider value={[loggedIn, setLoggedIn]}>
       <BrowserRouter>
         {/* {console.log("showing whats in App component return")} */}
         {showEmployees ? (
-          <>
+          // bg-red-200
+          <div className="App ">
+            <Header />
             <input
               type="text"
               onChange={(e) => {
@@ -35,15 +76,65 @@ function App() {
                 setRole(e.target.value);
               }}
             />
-            {/* role="intern" */}
-            <Employee name="Al" role={role} />
-            {/* FOLLOWING PROP DOES NOT UPDATE */}
-            <Employee name="Val" role02={role02} />
-          </>
+
+            <br />
+            <hr />
+            <br />
+
+            <div className="flex flex-wrap justify-center">
+              {employees.map((employee) => {
+                console.log(employee);
+                return (
+                  <Employee
+                    key={uuidv4()}
+                    name={employee.name}
+                    role={employee.role}
+                    img={employee.img}
+                  />
+                );
+              })}
+              {/* role="intern" */}
+              {/* <Employee
+                name="Al"
+                role={role}
+                img="https://images.pexels.com/photos/4588071/pexels-photo-4588071.jpeg?auto=compress&cs=tinysrgb&w=400"
+              />
+          
+              <Employee
+                name="Val"
+                role02={role02}
+                img="https://images.pexels.com/photos/2647053/pexels-photo-2647053.jpeg?auto=compress&cs=tinysrgb&w=100"
+              />
+              <Employee
+                name="pal"
+                role={role}
+                img="https://images.pexels.com/photos/2540644/pexels-photo-2540644.jpeg?auto=compress&cs=tinysrgb&w=600"
+              />
+              <Employee
+                name="pal"
+                role={role}
+                img="https://images.pexels.com/photos/568020/pexels-photo-568020.jpeg?auto=compress&cs=tinysrgb&w=600"
+              />
+              <Employee
+                name="pal"
+                role={role}
+                img="https://images.pexels.com/photos/2152399/pexels-photo-2152399.jpeg?auto=compress&cs=tinysrgb&w=600"
+              />
+              <Employee
+                name="pal"
+                role={role}
+                img="https://images.pexels.com/photos/1526410/pexels-photo-1526410.jpeg?auto=compress&cs=tinysrgb&w=600"
+              />
+              <Employee
+                name="pal"
+                role={role}
+                img="https://images.pexels.com/photos/16623469/pexels-photo-16623469.jpeg?auto=compress&cs=tinysrgb&w=400"
+              /> */}
+            </div>
+          </div>
         ) : (
           <p> You can't see list employees</p>
         )}
-        <Header />
 
         <Routes>
           <Route path="/" element={<Home />}></Route>
